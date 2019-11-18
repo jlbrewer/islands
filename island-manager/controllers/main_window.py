@@ -42,6 +42,7 @@ class MainWindow(QMainWindow):
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setContextMenu(self.tray_menu)
         self.tray_icon.setIcon(icon)
+        self.tray_icon.setToolTip("Islands Manager")
         self.tray_icon.activated.connect(self.process_tray_icon_activation)
         self.tray_icon.show()
         self.exiting = False
@@ -82,10 +83,11 @@ class MainWindow(QMainWindow):
 
         return super().event(event)
 
+    #Default close button minimizes to system tray
     def process_close(self, event):
         if not self.exiting:
             event.ignore()
-            self.showMinimized()
+            self.show_hide()
 
     def refresh_island_status(self):
         if self.pending_state:
@@ -129,8 +131,9 @@ class MainWindow(QMainWindow):
         self.ui.button_launch_setup.clicked.connect(self.launch_setup)
         self.current_state_signal.connect(self.set_state)
         self.ui.actionInfo.triggered.connect(self.show_app_info)
-        self.ui.actionClose.triggered.connect(self.quit_app)
+        self.ui.actionQuit.triggered.connect(self.quit_app)
         self.ui.actionMinimize_2.triggered.connect(self.minimize_main_window)
+        self.ui.actionShowHide.triggered.connect(self.show_hide)
         self.processing.connect(self.set_working)
         self.state_changed.connect(self.refresh_island_status)
         self.ui.act_islandsimage_authoring.triggered.connect(self.author_image)
@@ -539,7 +542,7 @@ class MainWindow(QMainWindow):
             self.close()
             return
 
-        if QM.question(self, "Exit confirm", "Quit the Island Manager?", QM.Yes | QM.No) == QM.Yes:
+        if QM.question(self, "Exit confirm", "Quit the Island Manager?\nRunning Islands will still run in the background.", QM.Yes | QM.No) == QM.Yes:
             log.debug("Quitting the islands manager...")
             self.exiting = True
             self.close()
@@ -547,11 +550,14 @@ class MainWindow(QMainWindow):
     
             
     def show_hide(self):
-        if self.isMinimized():
+        if self.isVisible():
+            self.hide()
+            self.tray_icon.showMessage("Islands Manager", "Islands Manager is still running.\nTo fully exit the program, select Quit from the menu.")
+        else:
+            self.show()
             self.activateWindow()
             self.showNormal()
-        else:
-            self.showMinimized()
+
 
     def process_tray_icon_activation(self, reason):
         log.debug("Tray icon activation detected!")

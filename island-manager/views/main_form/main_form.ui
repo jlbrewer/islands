@@ -782,14 +782,14 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuOptions">
+   <widget class="QMenu" name="menuWindow">
     <property name="title">
-     <string>Menu</string>
+     <string>Window</string>
     </property>
-    <addaction name="actionInfo"/>
-    <addaction name="separator"/>
     <addaction name="actionMinimize_2"/>
-    <addaction name="actionClose"/>
+    <addaction name="actionShowHide"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -819,8 +819,9 @@
      <string>Help</string>
     </property>
     <addaction name="act_help"/>
+    <addaction name="actionInfo"/>
    </widget>
-   <addaction name="menuOptions"/>
+   <addaction name="menuWindow"/>
    <addaction name="menuTools"/>
    <addaction name="menuKeys"/>
    <addaction name="menuConfig"/>
@@ -857,7 +858,7 @@
   </action>
   <action name="actionInfo">
    <property name="text">
-    <string>Info</string>
+    <string>Version Info</string>
    </property>
   </action>
   <action name="actionMinimize_2">
@@ -865,9 +866,9 @@
     <string>Minimize</string>
    </property>
   </action>
-  <action name="actionClose">
+  <action name="actionShowHide">
    <property name="text">
-    <string>Close</string>
+    <string>Show/Hide</string>
    </property>
   </action>
   <action name="act_islandsimage_authoring">
@@ -908,6 +909,11 @@
   <action name="act_view_logs">
    <property name="text">
     <string>View logs</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
    </property>
   </action>
  </widget>
